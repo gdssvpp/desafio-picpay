@@ -2,7 +2,6 @@ package com.picpaysimplificado.service;
 
 import com.picpaysimplificado.domain.transactional.Transaction;
 import com.picpaysimplificado.domain.user.User;
-import com.picpaysimplificado.domain.user.UserType;
 import com.picpaysimplificado.dtos.TransactionalDTO;
 import com.picpaysimplificado.repositories.TransactionalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +12,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -51,6 +51,7 @@ public class TransactionService {
         sender.setBalance(sender.getBalance().subtract(transaction.value()));
         receiver.setBalance(receiver.getBalance().add(transaction.value()));
 
+
         this.repository.save(newTransaction);
         this.userService.saveUser(sender);
         this.userService.saveUser(receiver);
@@ -74,4 +75,7 @@ public class TransactionService {
     }
 
 
+    public List<Transaction> getAllTransactions() {
+        return this.repository.findAll();
+    }
 }
